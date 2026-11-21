@@ -1,0 +1,10 @@
+# dependencias
+node_modules
+
+# variables de entorno (contienen secretos)
+.env
+.env.*
+!.env.example
+
+# builds
+dist
