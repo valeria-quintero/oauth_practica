@@ -9,7 +9,6 @@ export class AuthController {
 
   @Get('login')
   login() {
-    console.log(process.env.GITHUB_CLIENT_ID);
     this.logger.log('Login: generando URL de autorización de GitHub');
     const params = new URLSearchParams({
       client_id: process.env.GITHUB_CLIENT_ID || '',
@@ -20,8 +19,11 @@ export class AuthController {
       url: `https://github.com/login/oauth/authorize?${params.toString()}`,
     };
   }
+
   @Get('callback')
-  callback(@Query('code') code: string) {
+  async callback(@Query('code') code: string) {
     this.logger.log(`Callback recibido (code presente: ${code})`);
+    const response = await this.authService.getAccessToken(code);
+    return response;
   }
 }
